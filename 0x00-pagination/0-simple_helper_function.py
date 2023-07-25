@@ -22,15 +22,17 @@ Note:
     - The function assumes 1-indexed pages, meaning the first page is page 1.
 """
 
-def index_range(page, page_size):
-    if page <= 0 or page_size <= 0:
-        raise ValueError("Page and page_size must be positive integers.")
-    
-    start_index = (page - 1) * page_size
-    end_index = start_index + page_size - 1
-    
-    return start_index, end_index
 
-# Example usage:
-start, end = index_range(2, 10)
-print(f"Start Index: {start}, End Index: {end}")
+from typing import Tuple
+
+
+def index_range(page: int, page_size: int) -> Tuple[int, int]:
+    """
+    start index and an end index corresponding to the range of
+    """
+    # if page is 1, start at 0 and end at page_size
+    # if page is 2, start at ((page-1) * page_size) and
+    # end at (page_size * page)
+    # if page is 3, start at ((page-1) * page_size) and
+    # end at (page_size * page)
+    return ((page-1) * page_size, page_size * page)
