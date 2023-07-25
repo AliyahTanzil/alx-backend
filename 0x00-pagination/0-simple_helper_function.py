@@ -14,7 +14,8 @@ Parameters:
     page_size (int): The number of items per page.
 
 Returns:
-    tuple: A tuple containing the start index and end index of the range.
+    tuple: A tuple containing the start index and end index 
+    of the range.
 
 Example:
     >>> start, end = index_range(2, 10)
@@ -23,7 +24,8 @@ Example:
 
 Note:
     - Page numbers and page sizes should be positive integers.
-    - The function assumes 1-indexed pages, meaning the first page is page 1.
+    - The function assumes 1-indexed pages, meaning the first 
+    page is page 1.
 """
 
 
