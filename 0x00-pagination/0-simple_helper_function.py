@@ -3,12 +3,14 @@
 """
 index_range function
 
-This function takes two integer arguments, page and page_size, and returns a tuple 
-containing a start index and an end index corresponding to the range of indexes to 
-return in a list for those particular pagination parameters.
+This function takes two integer arguments, page and page_size,
+and returns a tuple containing a start index and an end index
+corresponding to the range of indexes to return in a list for 
+those particular pagination parameters.
 
 Parameters:
-    page (int): The page number for which the range needs to be calculated (1-indexed).
+    page (int): The page number for which the range needs to
+      be calculated (1-indexed).
     page_size (int): The number of items per page.
 
 Returns:
