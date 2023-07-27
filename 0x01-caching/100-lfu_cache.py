@@ -24,55 +24,57 @@ Must return the value in self.cache_data linked to key.
 If key is None or if the key doesn’t exist in self.cache_data, return None.
 """
 
-from collections import defaultdict
-from datetime import datetime
+
+
+#!/usr/bin/env python3
+
+"""
+BaseCaching module
+"""
 
 BaseCaching = __import__('base_caching').BaseCaching
 
-
 class LFUCache(BaseCaching):
-    """ LFUCache class inherits from BaseCaching and implements the LFU eviction policy.
+    """
+    LFUCache defines a caching system using LFU algorithm and inherits from BaseCaching
     """
 
     def __init__(self):
-        """ Initialize the LFUCache class with the capacity and a frequency dictionary.
+        """ Initialize LFUCache by calling the parent class's __init__ method
         """
         super().__init__()
-        self.frequency = defaultdict(int)
+        self.frequencies = {}
+        self.usage_count = 0
 
     def put(self, key, item):
-        """ Add an item in the cache using LFU eviction policy.
+        """ Add an item in the cache using LFU algorithm
         """
         if key is None or item is None:
             return
 
-        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-            min_freq = min(self.frequency.values())
-            lfu_items = [k for k, v in self.frequency.items() if v == min_freq]
-            lru_key = min(
-                lfu_items, key=lambda k: self.cache_data[k].timestamp)
-            print("DISCARD:", lru_key)
-            del self.cache_data[lru_key]
-            del self.frequency[lru_key]
+        if len(self.cache_data) >= self.MAX_ITEMS:
+            # Find the least frequency used item
+            min_freq_item = min(self.frequencies, key=self.frequencies.get) # type: ignore
+            if self.frequencies[min_freq_item] > 1:
+                # If there are multiple least frequency used items, use LRU to break the tie
+                lru_item = min(self.frequencies, key=lambda k: self.frequencies[k] if self.cache_data[k] == min_freq_item else float('inf'))
+                print("DISCARD: {}".format(lru_item))
+                del self.cache_data[lru_item]
+                del self.frequencies[lru_item]
 
-        self.cache_data[key] = CacheItem(item, datetime.now())
-        self.frequency[key] += 1
+        self.cache_data[key] = item
+        self.frequencies[key] = 1
+        self.usage_count += 1
 
     def get(self, key):
-        """ Get an item by key from the cache using LFU eviction policy.
+        """ Get an item by key using LFU algorithm
         """
         if key is None or key not in self.cache_data:
             return None
 
-        self.frequency[key] += 1
-        self.cache_data[key].timestamp = datetime.now()
-        return self.cache_data[key].value
+        self.frequencies[key] += 1
+        self.usage_count += 1
+        return self.cache_data[key]
 
 
-class CacheItem:
-    """ CacheItem class to store the item and its timestamp.
-    """
-
-    def __init__(self, value, timestamp):
-        self.value = value
-        self.timestamp = timestamp
+  # Output: 3
