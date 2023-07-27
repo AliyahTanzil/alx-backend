@@ -44,15 +44,18 @@ class LFUCache(BaseCaching):
         if key is None or item is None:
             return
 
-        if len(self.cache_data) >= self.MAX_ITEMS:
-            # Find the least frequency used item
-            min_freq_item = min(self.frequencies, key=self.frequencies.get) # type: ignore
-            if self.frequencies[min_freq_item] > 1:
-                # If there are multiple least frequency used items, use LRU to break the tie
-                lru_item = min(self.frequencies, key=lambda k: self.frequencies[k] if self.cache_data[k] == min_freq_item else float('inf'))
-                print("DISCARD: {}".format(lru_item))
-                del self.cache_data[lru_item]
-                del self.frequencies[lru_item]
+        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+            # Find the least frequency used item(s)
+            min_freq = min(self.frequencies.values())
+            items_to_discard = [k for k, v in self.frequencies.items() if v == min_freq]
+
+            # If there are multiple least frequency used items, use LRU to break the tie
+            lru_item = min(items_to_discard, key=lambda k: self.usage_count if k in self.cache_data else float('inf'))
+
+            # Discard the least frequently used item
+            del self.cache_data[lru_item]
+            del self.frequencies[lru_item]
+            print("DISCARD: {}".format(lru_item))
 
         self.cache_data[key] = item
         self.frequencies[key] = 1
@@ -67,6 +70,3 @@ class LFUCache(BaseCaching):
         self.frequencies[key] += 1
         self.usage_count += 1
         return self.cache_data[key]
-
-
-  # Output: 3
