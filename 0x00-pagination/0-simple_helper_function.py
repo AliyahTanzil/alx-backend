@@ -5,7 +5,7 @@ index_range function
 
 This function takes two integer arguments, page and page_size,
 and returns a tuple containing a start index and an end index
-corresponding to the range of indexes to return in a list for 
+corresponding to the range of indexes to return in a list for
 those particular pagination parameters.
 
 Parameters:
@@ -14,7 +14,7 @@ Parameters:
     page_size (int): The number of items per page.
 
 Returns:
-    tuple: A tuple containing the start index and end index 
+    tuple: A tuple containing the start index and end index
     of the range.
 
 Example:
@@ -24,7 +24,7 @@ Example:
 
 Note:
     - Page numbers and page sizes should be positive integers.
-    - The function assumes 1-indexed pages, meaning the first 
+    - The function assumes 1-indexed pages, meaning the first
     page is page 1.
 """
 

@@ -38,13 +38,13 @@ class Server:
             }
         return self.__indexed_dataset
 
+
     def get_hyper_index(self, index: int = None, # type: ignore
                         page_size: int = 10) -> Dict:
         """ return all data"""
 
         if index is None:
             index = 0
-
         # validate the index
         assert isinstance(index, int)
         assert 0 <= index < len(self.indexed_dataset())
