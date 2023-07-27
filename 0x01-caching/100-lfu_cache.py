@@ -6,7 +6,7 @@ and is a caching system:
 
 You must use self.cache_data - dictionary from the parent
 class BaseCaching
-You can overload def __init__(self): but don’t forget to 
+You can overload def __init__(self): but don’t forget to
 call the parent init: super().__init__()
 
 def put(self, key, item):
@@ -29,7 +29,8 @@ BaseCaching = __import__('base_caching').BaseCaching
 
 class LFUCache(BaseCaching):
     """
-    LFUCache defines a caching system using LFU algorithm and inherits from BaseCaching
+    LFUCache defines a caching system using LFU algorithm and
+    inherits from BaseCaching
     """
 
     def __init__(self):
