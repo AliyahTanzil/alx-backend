@@ -24,14 +24,6 @@ Must return the value in self.cache_data linked to key.
 If key is None or if the key doesn’t exist in self.cache_data, return None.
 """
 
-
-
-#!/usr/bin/env python3
-
-"""
-BaseCaching module
-"""
-
 BaseCaching = __import__('base_caching').BaseCaching
 
 class LFUCache(BaseCaching):
