@@ -13,11 +13,11 @@ def put(self, key, item):
 Must assign to the dictionary self.cache_data the item
 value for the key key.
 If key or item is None, this method should not do anything.
-If the number of items in self.cache_data is higher that 
+If the number of items in self.cache_data is higher that
 BaseCaching.MAX_ITEMS:
 you must discard the least frequency used item (LFU algorithm)
-if you find more than 1 item to discard, you must use the LRU 
-algorithm to discard only the least recently used you must print 
+if you find more than 1 item to discard, you must use the LRU
+algorithm to discard only the least recently used you must print
 DISCARD: with the key discarded and following by a new line
 def get(self, key):
 Must return the value in self.cache_data linked to key.
@@ -52,9 +52,11 @@ class LFUCache(BaseCaching):
             items_to_discard = [
                 k for k, v in self.frequencies.items() if v == min_freq]
 
-            # If there are multiple least frequency used items, use LRU to break the tie
+            # If there are multiple least frequency used items,
+            # use LRU to break the tie
             lru_item = min(
-                items_to_discard, key=lambda k: self.usage_count if k in self.cache_data
+                items_to_discard, key=lambda k: self.usage_count
+                if k in self.cache_data
                 else float('inf'))
 
             # Discard the least frequently used item
