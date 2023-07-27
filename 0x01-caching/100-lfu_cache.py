@@ -26,6 +26,7 @@ If key is None or if the key doesn’t exist in self.cache_data, return None.
 
 BaseCaching = __import__('base_caching').BaseCaching
 
+
 class LFUCache(BaseCaching):
     """
     LFUCache defines a caching system using LFU algorithm and inherits from BaseCaching
@@ -47,10 +48,13 @@ class LFUCache(BaseCaching):
         if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
             # Find the least frequency used item(s)
             min_freq = min(self.frequencies.values())
-            items_to_discard = [k for k, v in self.frequencies.items() if v == min_freq]
+            items_to_discard = [
+                k for k, v in self.frequencies.items() if v == min_freq]
 
             # If there are multiple least frequency used items, use LRU to break the tie
-            lru_item = min(items_to_discard, key=lambda k: self.usage_count if k in self.cache_data else float('inf'))
+            lru_item = min(
+                items_to_discard, key=lambda k: self.usage_count if k in self.cache_data
+                else float('inf'))
 
             # Discard the least frequently used item
             del self.cache_data[lru_item]
