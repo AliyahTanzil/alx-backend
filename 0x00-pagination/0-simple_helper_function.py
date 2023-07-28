@@ -29,16 +29,15 @@ Note:
 """
 
 
-from typing import Tuple
-
-
-def index_range(page: int, page_size: int) -> Tuple[int, int]:
+def index_range(page, page_size):
     """
-    start index and an end index corresponding to the range of
+    Function to calculate the start and end index of the range
+    of indexes to return in a list for those particular pagination
+    parameters.
     """
-    # if page is 1, start at 0 and end at page_size
-    # if page is 2, start at ((page-1) * page_size) and
-    # end at (page_size * page)
-    # if page is 3, start at ((page-1) * page_size) and
-    # end at (page_size * page)
-    return ((page-1) * page_size, page_size * page)
+    if page <= 0 or page_size <= 0:
+        raise ValueError("Page and page_size must be positive integers.")
+    start_index = (page - 1) * page_size
+    end_index = start_index + page_size - 1
+
+    return start_index, end_index
