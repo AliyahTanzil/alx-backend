@@ -6,10 +6,7 @@ Deletion-resilient hypermedia pagination
 import csv
 from typing import List, Dict
 
-
 class Server:
-    """Server class to paginate a database of popular baby names.
-    """
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
@@ -38,31 +35,29 @@ class Server:
             }
         return self.__indexed_dataset
 
-
-    def get_hyper_index(self, index: int = None, # type: ignore
-                        page_size: int = 10) -> Dict:
-        """ return all data"""
+    def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
+        dataset = self.dataset()
+        dataset_length = len(dataset)
 
         if index is None:
             index = 0
-        # validate the index
-        assert isinstance(index, int)
-        assert 0 <= index < len(self.indexed_dataset())
-        assert isinstance(page_size, int) and page_size > 0
 
-        data = []  # collect all indexed data
+        assert 0 <= index < dataset_length, "Invalid index"
+
         next_index = index + page_size
 
-        for value in range(index, next_index):
-            if self.indexed_dataset().get(value):
-                data.append(self.indexed_dataset()[value])
-            else:
-                value += 1
-                next_index += 1
+        data = []
+        for i in range(index, min(next_index, dataset_length)):
+            data.append(dataset[i])
 
         return {
-            'index': index,
-            'data': data,
-            'page_size': page_size,
-            'next_index': next_index
+            "index": index,
+            "next_index": next_index,
+            "page_size": page_size,
+            "data": data,
         }
+
+# Example usage:
+server = Server()
+result = server.get_hyper_index(page_size=10)
+print(result)
